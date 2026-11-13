@@ -1,5 +1,9 @@
 <template>
-    <div id="app-stock" class="app-layout" v-cloak>
+    <div
+        id="app-stock"
+        class="app-layout"
+        v-cloak
+    >
         <main class="app-main">
             <div class="stock-page-header">
                 <div>
@@ -7,32 +11,58 @@
                     <p class="subtitle">Kelola ketersediaan bahan ajar.</p>
                 </div>
                 <div v-if="isAdmin">
-                    <button type="button" @click="toggleNewForm" class="btn-primary">
+                    <button
+                        type="button"
+                        @click="toggleNewForm"
+                        class="btn-primary"
+                    >
                         <span class="material-symbols-outlined icon-18">add</span>
                         {{ showNewForm ? 'Tutup Form' : 'Bahan Ajar' }}
                     </button>
                 </div>
             </div>
 
-            <!-- Komponen Filter -->
-            <StockFilter :regionList="regionList" v-model:selectedRegion="selectedRegion"
-                v-model:selectedCategory="selectedCategory" v-model:searchQuery="searchQuery"
-                :isReorderFilterActive="isReorderFilterActive" :availableCategories="availableCategories"
-                @toggle-reorder="toggleReorderFilter" @reset-filters="resetFilters" />
+            <StockFilter
+                :regionList="regionList"
+                v-model:selectedRegion="selectedRegion"
+                v-model:selectedCategory="selectedCategory"
+                v-model:searchQuery="searchQuery"
+                :isReorderFilterActive="isReorderFilterActive"
+                :availableCategories="availableCategories"
+                @toggle-reorder="toggleReorderFilter"
+                @reset-filters="resetFilters"
+            />
 
-            <!-- Komponen Tabel -->
-            <StockTable :filteredStock="filteredStock" :isAdmin="isAdmin" :sortColumn="sortColumn"
-                :sortDirection="sortDirection" @sort="handleSort" @edit-book="openBookModal" />
+            <StockTable
+                :filteredStock="filteredStock"
+                :isAdmin="isAdmin"
+                :sortColumn="sortColumn"
+                :sortDirection="sortDirection"
+                @sort="handleSort"
+                @edit-book="openBookModal"
+            />
         </main>
 
-        <!-- Modal Tambah Modular -->
-        <StockFormModal :show="showNewForm" :isAdmin="isAdmin" v-model="newBook" @submit="handleRegisterBook"
-            @close="toggleNewForm" />
+        <StockFormModal
+            :show="showNewForm"
+            :isAdmin="isAdmin"
+            v-model="newBook"
+            @submit="handleRegisterBook"
+            @close="toggleNewForm"
+        />
 
-        <!-- Modal Edit Stok Modular -->
-        <StockEditModal :show="isModalOpen" :isAdmin="isAdmin" :selectedBook="selectedBook" :tempQty="tempQty"
-            v-model:actionInput="stockActionInput" :activeAction="activeAction" @add="addStock" @reduce="reduceStock"
-            @submit="saveBookChanges" @close="closeModal" />
+        <StockEditModal
+            :show="isModalOpen"
+            :isAdmin="isAdmin"
+            :selectedBook="selectedBook"
+            :tempQty="tempQty"
+            v-model:actionInput="stockActionInput"
+            :activeAction="activeAction"
+            @add="addStock"
+            @reduce="reduceStock"
+            @submit="saveBookChanges"
+            @close="closeModal"
+        />
     </div>
 </template>
 
@@ -110,14 +140,13 @@ const availableCategories = computed(() => {
 
 const filteredStock = computed(() => {
     let result = stock.value.filter(item => {
-        // Filter wilayah, kategori, dan pencarian berlaku secara universal
+
         const isRegionMatched = !selectedRegion.value || item.region === selectedRegion.value;
         const isCategoryMatched = !selectedCategory.value || item.category === selectedCategory.value;
         const isSearchMatched = !searchQuery.value ||
             item.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
             item.itemCode.toLowerCase().includes(searchQuery.value.toLowerCase());
 
-        // Jika tombol Re-order aktif, pastikan juga masuk dalam kriteria re-order
         if (isReorderFilterActive.value) {
             const isReorderNeeded = item.qty < item.safetyStock || item.qty === 0;
             return isRegionMatched && isCategoryMatched && isSearchMatched && isReorderNeeded;
@@ -254,13 +283,11 @@ const saveBookChanges = () => {
 
     const inputVal = Number(stockActionInput.value) || 0;
 
-    // Jika user mengetik angka tapi belum sempat klik tombol Tambah/Kurang
     if (inputVal > 0 && !activeAction.value) {
         showToast('Pilih aksi (Tambah atau Kurang) terlebih dahulu!', 'warning');
         return;
     }
 
-    // Tentukan jumlah akhir stok berdasarkan aksi yang aktif
     let finalQty = Number(selectedBook.value.qty);
 
     if (activeAction.value === 'add') {
@@ -273,7 +300,6 @@ const saveBookChanges = () => {
         }
     }
 
-    // Cari dan perbarui data di dalam array utama stok
     const targetCode = String(selectedBook.value.itemCode).trim().toLowerCase();
     const index = stock.value.findIndex(
         item => String(item.itemCode).trim().toLowerCase() === targetCode
@@ -287,7 +313,6 @@ const saveBookChanges = () => {
     stock.value[index].qty = finalQty;
     setStorage('stock_db', stock.value);
 
-    // Reset state modal
     isModalOpen.value = false;
     stockActionInput.value = '';
     activeAction.value = null;

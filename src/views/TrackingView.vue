@@ -1,5 +1,9 @@
 <template>
-    <div id="app-tracking" class="app-layout" v-cloak>
+    <div
+        id="app-tracking"
+        class="app-layout"
+        v-cloak
+    >
         <main class="app-main">
             <div class="tracking-page-header">
                 <div>
@@ -7,31 +11,52 @@
                     <p class="subtitle">Lacak status pengiriman paket bahan ajar.</p>
                 </div>
                 <div>
-                    <button type="button" @click="openDoModal" class="btn-primary">
+                    <button
+                        type="button"
+                        @click="openDoModal"
+                        class="btn-primary"
+                    >
                         <span class="material-symbols-outlined icon-18">add</span>
                         Buat Delivery Order Baru
                     </button>
                 </div>
             </div>
 
-            <form @submit.prevent="handleSearchDo" class="search-section">
+            <form
+                @submit.prevent="handleSearchDo"
+                class="search-section"
+            >
                 <div class="search-box">
                     <div class="form-group-search">
                         <label for="searchQuery">NOMOR DELIVERY ORDER (DO):</label>
                         <div class="search-input-wrapper">
-                            <input id="searchQuery" type="text" v-model="searchQuery" placeholder="Contoh: DO2026-001"
-                                class="form-control" />
-                            <button type="submit" class="btn-primary">
+                            <input
+                                id="searchQuery"
+                                type="text"
+                                v-model="searchQuery"
+                                placeholder="Contoh: DO2026-001"
+                                class="form-control"
+                            />
+                            <button
+                                type="submit"
+                                class="btn-primary"
+                            >
                                 <span class="material-symbols-outlined icon-18">search</span>
                                 Cari
                             </button>
                         </div>
                     </div>
                 </div>
-                <p v-if="searchError" class="error-text">{{ searchError }}</p>
+                <p
+                    v-if="searchError"
+                    class="error-text"
+                >{{ searchError }}</p>
             </form>
 
-            <div v-if="searchResult" class="tracking-result-card">
+            <div
+                v-if="searchResult"
+                class="tracking-result-card"
+            >
                 <div class="result-card-header">
                     <h3>Detail Tracking DO: <span>{{ searchResult.doNumber }}</span></h3>
                     <span class="status-badge">{{ searchResult.status }}</span>
@@ -69,7 +94,11 @@
                 <div class="tracking-history-section">
                     <h4>Riwayat Perjalanan Paket</h4>
                     <ul class="timeline-list">
-                        <li v-for="(h, index) in searchResult.history" :key="index" class="timeline-item">
+                        <li
+                            v-for="(h, index) in searchResult.history"
+                            :key="index"
+                            class="timeline-item"
+                        >
                             <span class="timeline-time">[{{ h.time }}]</span>
                             <span class="timeline-desc">{{ h.description }}</span>
                         </li>
@@ -78,10 +107,18 @@
             </div>
         </main>
 
-        <TrackingModal :isOpen="isDoModalOpen" :isConfirmStep="isConfirmStep" v-model="newDo"
-            :deliveryList="deliveryList" :packageList="packageList"
-            :selectedPackageItemsDetails="selectedPackageItemsDetails" @proceed-confirm="proceedToConfirm"
-            @save="saveNewDo" @back="backToForm" @close="closeModal" />
+        <TrackingModal
+            :isOpen="isDoModalOpen"
+            :isConfirmStep="isConfirmStep"
+            v-model="newDo"
+            :deliveryList="deliveryList"
+            :packageList="packageList"
+            :selectedPackageItemsDetails="selectedPackageItemsDetails"
+            @proceed-confirm="proceedToConfirm"
+            @save="saveNewDo"
+            @back="backToForm"
+            @close="closeModal"
+        />
     </div>
 </template>
 
@@ -104,7 +141,9 @@ import TrackingModal from '../components/TrackingModal.vue';
 
 const { toasts, showToast } = useToast();
 const currentUser = ref({ name: 'Pengguna', role: 'User' });
+
 let pollInterval = null;
+
 const trackingList = ref({});
 const packageList = ref([]);
 const deliveryList = ref([]);
@@ -196,7 +235,6 @@ const resolvePackageStock = (packageCode) => {
     const pkg = packageList.value.find(p => p.code === packageCode);
     if (!pkg) return null;
 
-    // Pastikan mengambil dari localStorage dengan fallback data yang aman
     const stockList = getStorage('stock_db', null) || loadStockData() || [];
     return { pkg, stockList };
 };
@@ -291,17 +329,14 @@ const backToForm = () => {
 };
 
 const saveNewDo = () => {
-    // 1. Validasi input wajib
     if (!newDo.value.nim || !newDo.value.name || !newDo.value.courier || !newDo.value.packageCode) {
         showToast('Semua kolom bertanda wajib harus diisi!', 'warning');
         return;
     }
 
-    // 2. Gunakan helper validasi terpusat
     const selectedPkg = validateSelectedPackage();
     if (!selectedPkg) return;
 
-    // 3. Ambil data stock_db dengan aman (pastikan tidak tertimpa kosong)
     let stockList = getStorage('stock_db', []);
     if (!stockList || stockList.length === 0) {
         stockList = loadStockData() || [];
@@ -309,7 +344,6 @@ const saveNewDo = () => {
 
     const itemsToDeduct = selectedPkg.items || [newDo.value.packageCode];
 
-    // 4. Proses pengurangan stok fisik di database
     itemsToDeduct.forEach(code => {
         const stockIndex = stockList.findIndex(
             s => String(s.itemCode || s.kode || s.code || '').trim().toLowerCase() === String(code).trim().toLowerCase()
@@ -320,7 +354,6 @@ const saveNewDo = () => {
         }
     });
 
-    // PENGAMAN KUNCI: Jangan pernah simpan array kosong ke stock_db!
     if (stockList && stockList.length > 0) {
         setStorage('stock_db', stockList);
     } else {
@@ -328,7 +361,6 @@ const saveNewDo = () => {
         return;
     }
 
-    // 5. Buat dan simpan data Delivery Order baru
     const createdDoNumber = newDo.value.doNumber;
 
     trackingList.value[createdDoNumber] = {

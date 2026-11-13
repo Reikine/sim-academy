@@ -4,25 +4,72 @@
             <h3>SITTA</h3>
             <p>Universitas Terbuka</p>
         </div>
+
         <nav class="sidebar-menu">
-            <button @click="currentView = 'dashboard'" :class="{ active: currentView === 'dashboard' }">
-                <span class="material-symbols-outlined">dashboard</span> Dashboard
+            <button
+                @click="currentView = 'dashboard'"
+                :class="{ active: currentView === 'dashboard' }"
+            >
+                <span class="material-symbols-outlined">dashboard</span>
+                Dashboard
             </button>
-            <button @click="currentView = 'stock'" :class="{ active: currentView === 'stock' }">
-                <span class="material-symbols-outlined">inventory_2</span> Stok Bahan Ajar
+
+            <button
+                @click="currentView = 'stock'"
+                :class="{ active: currentView === 'stock' }"
+            >
+                <span class="material-symbols-outlined">inventory_2</span>
+                Stok Bahan Ajar
             </button>
-            <button @click="currentView = 'history'" :class="{ active: currentView === 'history' }">
-                <span class="material-symbols-outlined">shopping_cart</span> Pemesanan
+
+            <button
+                @click="currentView = 'history'"
+                :class="{ active: currentView === 'history' }"
+            >
+                <span class="material-symbols-outlined">shopping_cart</span>
+                Pemesanan
             </button>
-            <button @click="currentView = 'tracking'" :class="{ active: currentView === 'tracking' }">
-                <span class="material-symbols-outlined">local_shipping</span> Tracking Pengiriman
+
+            <button
+                @click="currentView = 'tracking'"
+                :class="{ active: currentView === 'tracking' }"
+            >
+                <span class="material-symbols-outlined">local_shipping</span>
+                Tracking Pengiriman
+            </button>
+
+            <button
+                v-if="isAdmin"
+                @click="currentView = 'packageManagement'"
+                :class="{ active: currentView === 'packageManagement' }"
+            >
+                <span class="material-symbols-outlined">docs_add_on</span>
+                Buat Paket Baru
             </button>
         </nav>
     </aside>
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { currentView } from '../router';
+
+const isAdmin = computed(() => {
+    try {
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            const val = localStorage.getItem(key);
+
+            if (val && (val.toLowerCase().includes('administrator') || val.toLowerCase().includes('admin'))) {
+                return true;
+            }
+        }
+        return false;
+    } catch (e) {
+        console.error("Error checking admin:", e);
+        return false;
+    }
+});
 </script>
 
 <style>

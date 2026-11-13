@@ -16,6 +16,7 @@ import DashboardView from './views/DashboardView.vue';
 import StockView from './views/StockView.vue';
 import HistoryView from './views/HistoryView.vue';
 import TrackingView from './views/TrackingView.vue';
+import PackageManagementView from './views/PackageManagementView.vue';
 
 onMounted(() => {
   const session = getStorage('user_session', null);
@@ -30,18 +31,25 @@ const viewsMap = {
   dashboard: DashboardView,
   stock: StockView,
   history: HistoryView,
-  tracking: TrackingView
+  tracking: TrackingView,
+  packageManagement: PackageManagementView
 };
 
 const activeComponent = computed(() => viewsMap[currentView.value] || LoginView);
 </script>
 
 <template>
-  <div v-if="currentView === 'login' || currentView === 'register'" class="login-page-wrapper">
+  <div
+    v-if="currentView === 'login' || currentView === 'register'"
+    class="login-page-wrapper"
+  >
     <component :is="LoginView" />
   </div>
 
-  <div v-else class="app-layout-container">
+  <div
+    v-else
+    class="app-layout-container"
+  >
     <SidebarNav />
 
     <div class="app-main-wrapper">

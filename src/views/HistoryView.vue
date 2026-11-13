@@ -1,6 +1,9 @@
 <template>
-    <div id="app-history" class="app-layout" v-cloak>
-
+    <div
+        id="app-history"
+        class="app-layout"
+        v-cloak
+    >
         <main class="app-main">
             <div class="logs-page-header">
                 <div>
@@ -23,7 +26,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="item in userHistory" :key="item.doNumber">
+                        <tr
+                            v-for="item in userHistory"
+                            :key="item.doNumber"
+                        >
                             <td>{{ item.orderDate }}</td>
                             <td>{{ item.name }}</td>
                             <td>{{ item.doNumber }}</td>
@@ -35,13 +41,19 @@
                                 </span>
                             </td>
                             <td>
-                                <button @click="trackPackage(item.doNumber)" class="btn-edit">
+                                <button
+                                    @click="trackPackage(item.doNumber)"
+                                    class="btn-edit"
+                                >
                                     Lacak Paket
                                 </button>
                             </td>
                         </tr>
                         <tr v-if="userHistory.length === 0">
-                            <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 30px;">
+                            <td
+                                colspan="7"
+                                style="text-align: center; color: var(--text-muted); padding: 30px;"
+                            >
                                 Anda belum memiliki riwayat pemesanan atau pengiriman bahan ajar.
                             </td>
                         </tr>
@@ -49,7 +61,6 @@
                 </table>
             </div>
         </main>
-
     </div>
 </template>
 

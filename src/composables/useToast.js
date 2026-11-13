@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-const toasts = ref([]); // Global state agar sinkron ke App.vue & View lain
+const toasts = ref([]);
 
 export function useToast() {
     const showToast = (message, type = 'info', duration = 3000) => {

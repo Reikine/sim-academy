@@ -1,25 +1,46 @@
 <template>
-    <main id="app-auth" v-cloak>
+    <main
+        id="app-auth"
+        v-cloak
+    >
 
-        <div id="loginBox" v-show="currentView === 'login'">
+        <div
+            id="loginBox"
+            v-show="currentView === 'login'"
+        >
             <div class="auth-box-header">
-                <img :src="logoUrl" class="auth-logo">
+                <img
+                    :src="logoUrl"
+                    class="auth-logo"
+                >
                 <h2>Login</h2>
             </div>
 
             <form @submit.prevent="handleLogin">
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" v-model="loginForm.email" required />
+                    <input
+                        type="email"
+                        v-model="loginForm.email"
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
                     <label>Password</label>
                     <div class="password-container">
-                        <input :type="showPassword ? 'text' : 'password'" v-model="loginForm.password"
-                            autocomplete="current-password" required />
-                        <button type="button" @click="togglePassword" class="password-toggle-btn"
-                            title="Tampilkan Password">
+                        <input
+                            :type="showPassword ? 'text' : 'password'"
+                            v-model="loginForm.password"
+                            autocomplete="current-password"
+                            required
+                        />
+                        <button
+                            type="button"
+                            @click="togglePassword"
+                            class="password-toggle-btn"
+                            title="Tampilkan Password"
+                        >
                             <span class="material-symbols-outlined">
                                 {{ showPassword ? 'visibility_off' : 'visibility' }}
                             </span>
@@ -27,73 +48,126 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn-primary btn-full">Masuk</button>
+                <button
+                    type="submit"
+                    class="btn-primary btn-full"
+                >Masuk</button>
             </form>
 
             <div class="login-nav">
                 <p>
-                    <a href="#" @click.prevent="openResetModal">Lupa Password</a>
+                    <a
+                        href="#"
+                        @click.prevent="openResetModal"
+                    >Lupa Password</a>
                 </p>
                 <p>
                     Belum punya akun?
-                    <a href="#" @click.prevent="currentView = 'register'">Daftar di sini</a>
+                    <a
+                        href="#"
+                        @click.prevent="currentView = 'register'"
+                    >Daftar di sini</a>
                 </p>
             </div>
         </div>
 
-        <div id="regBox" v-show="currentView === 'register'">
+        <div
+            id="regBox"
+            v-show="currentView === 'register'"
+        >
             <div class="auth-box-header">
-                <img :src="logoUrl" class="auth-logo">
+                <img
+                    :src="logoUrl"
+                    class="auth-logo"
+                >
                 <h2>Daftar Akun Baru</h2>
             </div>
 
             <form @submit.prevent="handleRegister">
                 <div class="form-group">
                     <label>Nama Lengkap</label>
-                    <input type="text" v-model="regForm.name" required />
+                    <input
+                        type="text"
+                        v-model="regForm.name"
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
                     <label>Email Baru</label>
-                    <input type="email" v-model="regForm.email" required />
+                    <input
+                        type="email"
+                        v-model="regForm.email"
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
                     <label>Password Baru</label>
-                    <input type="password" v-model="regForm.password" autocomplete="new-password" required />
+                    <input
+                        type="password"
+                        v-model="regForm.password"
+                        autocomplete="new-password"
+                        required
+                    />
                 </div>
 
                 <div class="form-group">
                     <label>Lokasi</label>
-                    <input type="text" v-model="regForm.location" placeholder="Contoh: UPBJJ Jakarta / Pusat"
-                        required />
+                    <input
+                        type="text"
+                        v-model="regForm.location"
+                        placeholder="Contoh: UPBJJ Jakarta / Pusat"
+                        required
+                    />
                 </div>
 
-                <button type="submit" class="btn-primary btn-full">Daftar Sekarang</button>
+                <button
+                    type="submit"
+                    class="btn-primary btn-full"
+                >Daftar Sekarang</button>
             </form>
 
             <div class="login-nav">
                 <p>
                     Sudah punya akun?
-                    <a href="#" @click.prevent="currentView = 'login'">Kembali ke Login</a>
+                    <a
+                        href="#"
+                        @click.prevent="currentView = 'login'"
+                    >Kembali ke Login</a>
                 </p>
             </div>
         </div>
 
-        <div class="modal-overlay" v-if="isResetModalOpen">
+        <div
+            class="modal-overlay"
+            v-if="isResetModalOpen"
+        >
             <div class="modal-content">
                 <h3>Reset Password</h3>
                 <p>Masukkan email akun Anda yang terdaftar untuk mengirim permintaan ke admin.</p>
 
                 <form @submit.prevent="submitForgotPassword">
                     <div class="modal-input-group">
-                        <input type="email" v-model="resetEmail" placeholder="Contoh: user@ut.ac.id" required
-                            autofocus />
+                        <input
+                            type="email"
+                            v-model="resetEmail"
+                            placeholder="Contoh: user@ut.ac.id"
+                            required
+                            autofocus
+                        />
                     </div>
 
                     <div id="modalActionArea">
-                        <button type="submit" class="btn-primary">Kirim</button>
-                        <button type="button" @click="closeResetModal" class="btn-secondary">Batal</button>
+                        <button
+                            type="submit"
+                            class="btn-primary"
+                        >Kirim</button>
+                        <button
+                            type="button"
+                            @click="closeResetModal"
+                            class="btn-secondary"
+                        >Batal</button>
                     </div>
                 </form>
             </div>
