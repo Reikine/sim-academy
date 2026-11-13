@@ -1,8 +1,7 @@
 <template>
     <aside class="app-sidebar">
         <div class="sidebar-brand">
-            <h3>SITTA</h3>
-            <p>Universitas Terbuka</p>
+            <h2>Universitas Terbuka</h2>
         </div>
 
         <nav class="sidebar-menu">
