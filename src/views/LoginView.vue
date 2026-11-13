@@ -6,7 +6,7 @@
 
         <div
             id="loginBox"
-            v-show="currentView === 'login'"
+            v-show="authMode === 'login'"
         >
             <div class="auth-box-header">
                 <img
@@ -65,7 +65,7 @@
                     Belum punya akun?
                     <a
                         href="#"
-                        @click.prevent="currentView = 'register'"
+                        @click.prevent="switchMode('register')"
                     >Daftar di sini</a>
                 </p>
             </div>
@@ -73,7 +73,7 @@
 
         <div
             id="regBox"
-            v-show="currentView === 'register'"
+            v-show="authMode === 'register'"
         >
             <div class="auth-box-header">
                 <img
@@ -133,8 +133,9 @@
                     Sudah punya akun?
                     <a
                         href="#"
-                        @click.prevent="currentView = 'login'"
-                    >Kembali ke Login</a>
+                        @click.prevent="switchMode('login')"
+                    >
+                        >Kembali ke Login</a>
                 </p>
             </div>
         </div>
@@ -180,7 +181,7 @@
 import { useToast } from '../composables/useToast.js';
 import { getStorage, setStorage, loadUserData } from '../services';
 import { currentView } from '../router';
-import { ref, reactive, onMounted, onUnmounted, watch } from 'vue';
+import { ref, reactive, onMounted, watch } from 'vue';
 
 const { toasts, showToast, removeToast } = useToast();
 const logoUrl = new URL('../assets/logo-ut.png', import.meta.url).href;
@@ -188,6 +189,7 @@ const logoUrl = new URL('../assets/logo-ut.png', import.meta.url).href;
 const userDb = ref([]);
 const showPassword = ref(false);
 
+const authMode = ref('login');
 const loginForm = reactive({ email: '', password: '' });
 const regForm = reactive({ name: '', email: '', password: '', location: '' });
 
@@ -197,9 +199,8 @@ const resetEmail = ref('');
 watch(currentView, () => {
     Object.assign(loginForm, { email: '', password: '' });
     Object.assign(regForm, { name: '', email: '', password: '', location: '' });
+    isResetModalOpen.value = false;
 });
-
-let idleTimer = null;
 
 onMounted(() => {
     userDb.value = loadUserData();

@@ -73,10 +73,10 @@ import {
     getStatusBadgeClass,
     checkAndPromoteStatus
 } from '../services';
-import { createApp, ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { currentView } from '../router';
 
-const { toasts, showToast, removeToast } = useToast();
+const { showToast } = useToast();
 
 // State management
 const currentUser = ref({ name: '', email: '', role: 'User', nim: '' });

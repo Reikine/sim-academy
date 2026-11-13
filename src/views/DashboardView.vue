@@ -59,11 +59,8 @@
             <div class="panel-header-flex">
                 <div>
                     <h3>Monitor dan Status Persediaan Stok</h3>
-                    <p
-                        class="panel-subtitle"
-                        style="margin-bottom: 0;"
-                    >Ringkasan kondisi keseluruhan stok dan daftar
-                        bahan ajar di bawah safety stock.</p>
+                    <p class="panel-subtitle">Ringkasan kondisi keseluruhan stok dam daftar bahan ajar di bawah safety
+                        stock.</p>
                 </div>
 
                 <div class="header-status-badges">
@@ -151,12 +148,12 @@
                                         ? 'Kritis'
                                         :
                                         (item.qty
-                                        <
-                                        item.safetyStock
-                                        ? 'Menipis'
-                                        : 'Aman'
+                                            <
+                                            item.safetyStock
+                                            ? 'Menipis'
+                                            : 'Aman'
                                         ))
-                                        }}
+                                    }}
                                         </span
                                     >
                             </td>
