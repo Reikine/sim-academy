@@ -51,24 +51,22 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { currentView } from '../router';
+import { getAuthUser } from '../services';
+
+const currentUser = ref(getAuthUser() || { role: 'User' });
+
+onMounted(() => {
+    const user = getAuthUser();
+    if (user) {
+        currentUser.value = user;
+    }
+});
 
 const isAdmin = computed(() => {
-    try {
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            const val = localStorage.getItem(key);
-
-            if (val && (val.toLowerCase().includes('administrator') || val.toLowerCase().includes('admin'))) {
-                return true;
-            }
-        }
-        return false;
-    } catch (e) {
-        console.error("Error checking admin:", e);
-        return false;
-    }
+    const role = String(currentUser.value?.role || '').toLowerCase();
+    return role === 'administrator' || role === 'admin';
 });
 </script>
 

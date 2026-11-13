@@ -119,7 +119,6 @@ const currentUser = ref(getAuthUser() || { name: 'Pengguna', role: 'User' });
 const isLogoutModalOpen = ref(false);
 const isNotifOpen = ref(false);
 const resetRequests = ref([]);
-const isDarkMode = ref(false);
 
 const isAdmin = computed(() => {
     const role = String(currentUser.value?.role || '').toLowerCase();
