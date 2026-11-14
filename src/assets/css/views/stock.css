@@ -194,6 +194,29 @@ textarea.form-control {
     color: var(--primary-text);
 }
 
+.action-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-delete {
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.35);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background: rgba(239, 68, 68, 0.28);
+    border-color: #ef4444;
+}
+
 .text-center {
     text-align: center;
 }

@@ -1,8 +1,5 @@
 <template>
-    <aside class="app-sidebar">
-        <div class="sidebar-brand">
-            <h2>Universitas Terbuka</h2>
-        </div>
+    <aside :class="['app-sidebar', { collapsed: !isOpen }]">
 
         <nav class="sidebar-menu">
             <button
@@ -10,7 +7,7 @@
                 :class="{ active: currentView === 'dashboard' }"
             >
                 <span class="material-symbols-outlined">dashboard</span>
-                Dashboard
+                <span class="nav-label">Dashboard</span>
             </button>
 
             <button
@@ -18,7 +15,7 @@
                 :class="{ active: currentView === 'stock' }"
             >
                 <span class="material-symbols-outlined">inventory_2</span>
-                Stok Bahan Ajar
+                <span class="nav-label">Stok Bahan Ajar</span>
             </button>
 
             <button
@@ -26,7 +23,7 @@
                 :class="{ active: currentView === 'history' }"
             >
                 <span class="material-symbols-outlined">shopping_cart</span>
-                Pemesanan
+                <span class="nav-label">Pemesanan</span>
             </button>
 
             <button
@@ -34,7 +31,7 @@
                 :class="{ active: currentView === 'tracking' }"
             >
                 <span class="material-symbols-outlined">local_shipping</span>
-                Tracking Pengiriman
+                <span class="nav-label">Tracking Pengiriman</span>
             </button>
 
             <button
@@ -43,7 +40,7 @@
                 :class="{ active: currentView === 'packageManagement' }"
             >
                 <span class="material-symbols-outlined">docs_add_on</span>
-                Buat Paket Baru
+                <span class="nav-label">Paket Bahan Ajar</span>
             </button>
         </nav>
     </aside>
@@ -53,6 +50,13 @@
 import { ref, computed, onMounted } from 'vue';
 import { currentView } from '../router';
 import { getAuthUser } from '../services';
+
+defineProps({
+    isOpen: {
+        type: Boolean,
+        default: true
+    }
+});
 
 const currentUser = ref(getAuthUser() || { role: 'User' });
 

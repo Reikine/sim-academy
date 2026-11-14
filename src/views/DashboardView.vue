@@ -27,7 +27,7 @@
                 </div>
                 <div class="stat-info">
                     <h4>Total Persediaan</h4>
-                    <p class="stat-value">{{ totalPersediaan }}</p>
+                    <p class="stat-value">{{ totalAllStock }}</p>
                     <span class="stat-desc">Jumlah seluruh stok fisik</span>
                 </div>
             </div>
@@ -209,7 +209,7 @@ const goToStock = () => {
     currentView.value = 'stock';
 };
 
-const totalPersediaan = computed(() => {
+const totalAllStock = computed(() => {
     return stockList.value.reduce((sum, item) => sum + Number(item.qty || 0), 0);
 });
 

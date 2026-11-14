@@ -52,7 +52,7 @@
                     <td>{{ item.rackLocation }}</td>
                     <td>{{ item.qty }}</td>
                     <td style="white-space: nowrap;">{{ formatPrice(item.price) }}</td>
-                    <td>{{ item.safetyStock }}</td>
+                    <td>{{ item.safetyStock }} buah</td>
                     <td>
                         <span :class="{
                             'badge-aman': item.qty > item.safetyStock,
@@ -68,24 +68,33 @@
                                             /
                                             2)
                                         ? 'Kritis'
-                                :
-                                (item.qty
-                                <=item.safetyStock
-                                ? 'Menipis'
-                                : 'Aman'
-                                ))
-                                }}
+                                        :
+                                        (item.qty
+                                            <= item.safetyStock
+                                            ? 'Menipis'
+                                            : 'Aman'
+                                        ))
+                            }}
                                 </span
                             >
                     </td>
                     <td v-if="isAdmin">
-                        <button
-                            type="button"
-                            @click="$emit('edit-book', item)"
-                            class="btn-edit"
-                        >
-                            Edit
-                        </button>
+                        <div class="action-group">
+                            <button
+                                type="button"
+                                @click="$emit('edit-book', item)"
+                                class="btn-edit"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                type="button"
+                                @click="$emit('delete-book', item)"
+                                class="btn-delete"
+                            >
+                                Hapus
+                            </button>
+                        </div>
                     </td>
                     <td class="text-center">
                         <span
@@ -160,7 +169,7 @@ const props = defineProps({
     sortDirection: String
 });
 
-defineEmits(['sort', 'edit-book']);
+defineEmits(['sort', 'edit-book', 'delete-book']);
 
 const currentPage = ref(1);
 const pageSize = ref(10);

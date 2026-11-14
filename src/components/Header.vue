@@ -1,6 +1,19 @@
 <template>
     <header class="app-header">
         <div class="header-brand">
+            <button
+                type="button"
+                @click="$emit('toggle-sidebar')"
+                class="btn-sidebar-toggle"
+                title="Buka/Tutup Menu"
+            >
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+            <img
+                src="../assets/logo-ut.png"
+                alt="Logo UT"
+                class="header-logo"
+            />
             <span class="brand-title">SITTA - Pusat Kelola Bahan Ajar</span>
         </div>
 
@@ -113,6 +126,8 @@ import { ref, computed, onMounted } from 'vue';
 import { currentView } from '../router';
 import { logout, getStorage, setStorage, getAuthUser } from '../services';
 import { useToast } from '../composables/useToast.js';
+
+defineEmits(['toggle-sidebar']);
 
 const { showToast } = useToast();
 const currentUser = ref(getAuthUser() || { name: 'Pengguna', role: 'User' });

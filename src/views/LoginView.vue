@@ -184,7 +184,7 @@ import { currentView } from '../router';
 import { ref, reactive, onMounted, watch } from 'vue';
 
 const { toasts, showToast, removeToast } = useToast();
-const logoUrl = new URL('../assets/vue.svg', import.meta.url).href;
+const logoUrl = new URL('../assets/logo-ut.png', import.meta.url).href;
 
 const userDb = ref([]);
 const showPassword = ref(false);

@@ -3,7 +3,7 @@ import heroImg from './assets/hero.png'
 import viteLogo from './assets/vite.svg'
 import vueLogo from './assets/vue.svg'
 
-import { computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { currentView } from './router';
 import { getStorage } from './services';
 
@@ -24,6 +24,8 @@ onMounted(() => {
     currentView.value = 'dashboard';
   }
 });
+
+const isSidebarOpen = ref(window.innerWidth > 768);
 
 const viewsMap = {
   login: LoginView,
@@ -50,10 +52,10 @@ const activeComponent = computed(() => viewsMap[currentView.value] || LoginView)
     v-else
     class="app-layout-container"
   >
-    <SidebarNav />
+    <SidebarNav :isOpen="isSidebarOpen" />
 
     <div class="app-main-wrapper">
-      <AppTopHeader />
+      <AppTopHeader @toggle-sidebar="isSidebarOpen = !isSidebarOpen" />
 
       <main class="app-content-body">
         <component :is="activeComponent" />

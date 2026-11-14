@@ -40,6 +40,7 @@
                 :sortDirection="sortDirection"
                 @sort="handleSort"
                 @edit-book="openBookModal"
+                @delete-book="openDeleteModal"
             />
         </main>
 
@@ -63,6 +64,31 @@
             @submit="saveBookChanges"
             @close="closeModal"
         />
+
+        <div
+            v-if="isDeleteModalOpen && isAdmin"
+            class="modal-backdrop"
+        >
+            <div class="modal-card modal-card-sm">
+                <h3>Konfirmasi Hapus</h3>
+                <p>
+                    Hapus bahan ajar <strong>{{ bookToDelete?.itemCode }} - {{ bookToDelete?.title }}</strong>?
+                </p>
+                <div class="form-actions modal-footer-actions">
+                    <button
+                        type="button"
+                        @click="confirmDeleteBook"
+                        class="btn-save"
+                    >Ya, Hapus</button>
+                    <button
+                        type="button"
+                        @click="closeDeleteModal"
+                        class="btn-cancel"
+                    >Batal</button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -103,6 +129,9 @@ const selectedBook = ref(null);
 const stockActionInput = ref('');
 const tempQty = ref(0);
 const activeAction = ref(null);
+
+const isDeleteModalOpen = ref(false);
+const bookToDelete = ref(null);
 
 const newBook = ref({
     itemCode: '', title: '', category: '', region: '',
@@ -321,6 +350,28 @@ const saveBookChanges = () => {
 
 const closeModal = () => {
     isModalOpen.value = false;
+};
+
+const openDeleteModal = (book) => {
+    if (!isAdmin.value) return;
+    bookToDelete.value = book;
+    isDeleteModalOpen.value = true;
+};
+
+const confirmDeleteBook = () => {
+    if (!isAdmin.value || !bookToDelete.value) return;
+    const targetCode = String(bookToDelete.value.itemCode).trim().toLowerCase();
+    stock.value = stock.value.filter(
+        item => String(item.itemCode).trim().toLowerCase() !== targetCode
+    );
+    setStorage('stock_db', stock.value);
+    showToast(`Bahan ajar ${bookToDelete.value.itemCode} berhasil dihapus!`, 'success');
+    closeDeleteModal();
+};
+
+const closeDeleteModal = () => {
+    isDeleteModalOpen.value = false;
+    bookToDelete.value = null;
 };
 </script>
 

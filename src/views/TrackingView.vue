@@ -28,12 +28,13 @@
             >
                 <div class="search-box">
                     <div class="form-group-search">
-                        <label for="searchQuery">NOMOR DELIVERY ORDER (DO):</label>
+                        <label for="searchQuery">NOMOR DELIVERY ORDER (DO) ATAU NIM:</label>
                         <div class="search-input-wrapper">
                             <input
                                 id="searchQuery"
                                 type="text"
                                 v-model="searchQuery"
+                                @keydown.esc="resetSearch"
                                 placeholder="Contoh: DO2026-001"
                                 class="form-control"
                             />
@@ -81,7 +82,7 @@
                     </div>
                     <div class="info-item">
                         <span class="info-label">TANGGAL KIRIM</span>
-                        <span class="info-value">{{ searchResult.shipmentDate }}</span>
+                        <span class="info-value">{{ formatDisplayDate(searchResult.shipmentDate) }}</span>
                     </div>
                     <div class="info-item">
                         <span class="info-label">TOTAL HARGA</span>
@@ -130,6 +131,7 @@ import {
     setStorage,
     formatDateTime,
     getTodayDateString,
+    formatDisplayDate,
     checkAndPromoteStatus,
     loadTrackingData,
     loadPackageData,
@@ -152,6 +154,12 @@ const searchResult = ref(null);
 const searchError = ref('');
 const isDoModalOpen = ref(false);
 const isConfirmStep = ref(false);
+
+const resetSearch = () => {
+    searchQuery.value = '';
+    searchResult.value = null;
+    searchError.value = '';
+};
 
 const newDo = ref({
     doNumber: '',
@@ -214,12 +222,14 @@ const handleSearchDo = () => {
 
     const query = searchQuery.value.trim();
     if (!query) {
-        searchError.value = 'Silakan masukkan nomor Delivery Order (DO).';
+        searchError.value = 'Silakan masukkan nomor Delivery Order (DO) atau NIM.';
         return;
     }
 
     const matchedKey = Object.keys(trackingList.value).find(
-        key => key.toLowerCase() === query.toLowerCase()
+        key =>
+            key.toLowerCase() === query.toLowerCase() ||
+            String(trackingList.value[key]?.nim || '').trim() === query
     );
 
     if (matchedKey && trackingList.value[matchedKey]) {

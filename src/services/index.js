@@ -83,6 +83,17 @@ export const getTodayDateString = () => {
     return new Date().toISOString().split('T')[0];
 };
 
+export const formatDisplayDate = (dateStr) => {
+    if (!dateStr) return '-';
+    const parsed = new Date(dateStr);
+    if (isNaN(parsed.getTime())) return dateStr;
+    return parsed.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+    });
+};
+
 export const getStatusBadgeClass = (status) => {
     switch (status) {
         case 'Selesai':
