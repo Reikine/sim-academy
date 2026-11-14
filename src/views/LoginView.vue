@@ -6,7 +6,7 @@
 
         <div
             id="loginBox"
-            v-show="authMode === 'login'"
+            v-show="currentView === 'login'"
         >
             <div class="auth-box-header">
                 <img
@@ -65,7 +65,7 @@
                     Belum punya akun?
                     <a
                         href="#"
-                        @click.prevent="switchMode('register')"
+                        @click.prevent="currentView = 'register'"
                     >Daftar di sini</a>
                 </p>
             </div>
@@ -73,7 +73,7 @@
 
         <div
             id="regBox"
-            v-show="authMode === 'register'"
+            v-show="currentView === 'register'"
         >
             <div class="auth-box-header">
                 <img
@@ -133,9 +133,9 @@
                     Sudah punya akun?
                     <a
                         href="#"
-                        @click.prevent="switchMode('login')"
+                        @click.prevent="currentView = 'login'"
                     >
-                        >Kembali ke Login</a>
+                        Kembali ke Login</a>
                 </p>
             </div>
         </div>
@@ -188,8 +188,6 @@ const logoUrl = new URL('../assets/vue.svg', import.meta.url).href;
 
 const userDb = ref([]);
 const showPassword = ref(false);
-
-const authMode = ref('login');
 const loginForm = reactive({ email: '', password: '' });
 const regForm = reactive({ name: '', email: '', password: '', location: '' });
 
