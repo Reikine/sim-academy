@@ -138,6 +138,7 @@ onMounted(() => {
     stockList.value = loadStockData();
 });
 
+// Normalize stock object properties across varying key conventions
 const getBookCode = (book) => {
     return book.code || book.kode || book.id || book.itemCode || book.courseCode || Object.values(book)[0];
 };
@@ -150,6 +151,7 @@ const getBookPrice = (book) => {
     return Number(book.price || book.harga || book.cost || 0);
 };
 
+// Automatically calculate total package price from selected book items
 const calculatedPrice = computed(() => {
     return newPackage.value.selectedItems.reduce((total, itemCode) => {
         const book = stockList.value.find(b => getBookCode(b) === itemCode);
@@ -157,6 +159,7 @@ const calculatedPrice = computed(() => {
     }, 0);
 });
 
+// Validate inputs, persist new package bundle to localStorage, and reset form
 const handleSavePackage = () => {
     if (!newPackage.value.code || !newPackage.value.name) {
         showToast('Kode dan Nama Paket wajib diisi!', 'warning');

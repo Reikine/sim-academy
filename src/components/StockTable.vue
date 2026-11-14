@@ -174,6 +174,7 @@ defineEmits(['sort', 'edit-book', 'delete-book']);
 const currentPage = ref(1);
 const pageSize = ref(10);
 
+// Reset pagination to first page whenever filtered stock data changes
 watch(() => props.filteredStock, () => {
     currentPage.value = 1;
 });
@@ -182,6 +183,7 @@ const totalPages = computed(() => {
     return Math.ceil(props.filteredStock.length / pageSize.value) || 1;
 });
 
+// Slice filtered stock list into paginated chunks (10 items per page)
 const paginatedStock = computed(() => {
     const start = (currentPage.value - 1) * pageSize.value;
     const end = start + pageSize.value;

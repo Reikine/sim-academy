@@ -155,6 +155,7 @@ const searchError = ref('');
 const isDoModalOpen = ref(false);
 const isConfirmStep = ref(false);
 
+// Clear search input, active result, and error state
 const resetSearch = () => {
     searchQuery.value = '';
     searchResult.value = null;
@@ -214,6 +215,7 @@ onUnmounted(() => {
     if (pollInterval) clearInterval(pollInterval);
 });
 
+// Search Delivery Order by DO number or student NIM
 const handleSearchDo = () => {
     if (toasts.value && toasts.value.length > 0) return;
 
@@ -249,6 +251,7 @@ const resolvePackageStock = (packageCode) => {
     return { pkg, stockList };
 };
 
+// Resolve full item titles for the currently selected package
 const selectedPackageItemsDetails = computed(() => {
     const data = resolvePackageStock(newDo.value.packageCode);
     if (!data || !data.pkg.items) return [];
@@ -268,6 +271,7 @@ const selectedPackageItemsDetails = computed(() => {
     });
 });
 
+// Verify that all items in the selected package meet safety stock requirements
 const validateSelectedPackage = () => {
     const data = resolvePackageStock(newDo.value.packageCode);
     if (!data) {
@@ -297,6 +301,7 @@ const validateSelectedPackage = () => {
     return data.pkg;
 };
 
+// Generate sequential DO number and open creation modal
 const openDoModal = () => {
     const year = new Date().getFullYear();
     const count = Object.keys(trackingList.value).length + 1;
@@ -338,6 +343,7 @@ const backToForm = () => {
     isConfirmStep.value = false;
 };
 
+// Deduct package item quantities from stock_db and persist new DO record
 const saveNewDo = () => {
     if (!newDo.value.nim || !newDo.value.name || !newDo.value.courier || !newDo.value.packageCode) {
         showToast('Semua kolom bertanda wajib harus diisi!', 'warning');

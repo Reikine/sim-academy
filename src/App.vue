@@ -1,8 +1,4 @@
 <script setup>
-import heroImg from './assets/hero.png'
-import viteLogo from './assets/vite.svg'
-import vueLogo from './assets/vue.svg'
-
 import { ref, computed, onMounted } from 'vue';
 import { currentView } from './router';
 import { getStorage } from './services';

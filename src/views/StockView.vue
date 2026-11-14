@@ -149,6 +149,7 @@ onMounted(() => {
     categoryList.value = constants.categories
 });
 
+// Reset category filter on region change and disable re-order filter while searching
 watch(selectedRegion, () => {
     selectedCategory.value = '';
 });
@@ -167,6 +168,7 @@ const availableCategories = computed(() => {
     return [...new Set(data.map(item => item.category))];
 });
 
+// Filter stock by region, category, search query, re-order status, and apply column sorting
 const filteredStock = computed(() => {
     let result = stock.value.filter(item => {
 
@@ -232,6 +234,7 @@ const toggleNewForm = () => {
     showNewForm.value = !showNewForm.value;
 };
 
+// Validate unique item code and register new stock entry to localStorage
 const handleRegisterBook = () => {
     if (!isAdmin.value) {
         showToast('Akses Ditolak!', 'error');
@@ -303,6 +306,7 @@ const reduceStock = () => {
     activeAction.value = 'reduce';
 };
 
+// Calculate stock adjustment and persist updated quantity to localStorage
 const saveBookChanges = () => {
     if (!isAdmin.value) {
         showToast('Akses Ditolak!', 'error');
@@ -358,6 +362,7 @@ const openDeleteModal = (book) => {
     isDeleteModalOpen.value = true;
 };
 
+// Permanently remove target stock item after modal confirmation
 const confirmDeleteBook = () => {
     if (!isAdmin.value || !bookToDelete.value) return;
     const targetCode = String(bookToDelete.value.itemCode).trim().toLowerCase();

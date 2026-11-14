@@ -209,6 +209,7 @@ const goToStock = () => {
     currentView.value = 'stock';
 };
 
+// Compute total physical stock and active Delivery Order count
 const totalAllStock = computed(() => {
     return stockList.value.reduce((sum, item) => sum + Number(item.qty || 0), 0);
 });
@@ -217,6 +218,7 @@ const totalTracking = computed(() => {
     return Object.keys(trackingList.value).length;
 });
 
+// Filter items below safety stock threshold for re-order alerts
 const lowStockItems = computed(() => {
     return stockList.value.filter(item => Number(item.qty) < Number(item.safetyStock) || Number(item.qty) === 0);
 });

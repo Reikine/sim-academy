@@ -54,6 +54,7 @@
                 type="text"
                 :value="searchQuery"
                 @input="$emit('update:searchQuery', $event.target.value)"
+                @keydown.esc="$emit('update:searchQuery', '')"
                 placeholder="Ketik kode atau judul buku..."
                 class="form-control"
             />

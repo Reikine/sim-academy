@@ -160,6 +160,7 @@ const toggleNotifPanel = () => {
     }
 };
 
+// Approve password reset request by resetting user password to default '123456'
 const approveReset = (email, index) => {
     let db = getStorage('user_db', []);
     const targetUser = db.find(u => u.email === email);
@@ -176,6 +177,7 @@ const approveReset = (email, index) => {
     setStorage('resetRequests', resetRequests.value);
 };
 
+// Dismiss password reset request from the notification queue
 const rejectReset = (index) => {
     resetRequests.value.splice(index, 1);
     setStorage('resetRequests', resetRequests.value);
@@ -190,6 +192,7 @@ const cancelLogoutBtn = () => {
     isLogoutModalOpen.value = false;
 };
 
+// Clear active session and redirect user back to login view
 const modalConfirmLogout = () => {
     showToast('Berhasil keluar.', 'info');
     setTimeout(() => {
