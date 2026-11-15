@@ -2,7 +2,6 @@
     <div
         id="app-stock"
         class="app-layout"
-        v-cloak
     >
         <main class="app-main">
             <div class="stock-page-header">

@@ -2,7 +2,6 @@
     <div
         id="app-tracking"
         class="app-layout"
-        v-cloak
     >
         <main class="app-main">
             <div class="tracking-page-header">

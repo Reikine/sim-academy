@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="dashboard-container"
-        v-cloak
-    >
+    <div class="dashboard-container">
 
         <div class="dashboard-header-section">
             <h2>Dashboard</h2>

@@ -2,7 +2,6 @@
     <div
         id="app-history"
         class="app-layout"
-        v-cloak
     >
         <main class="app-main">
             <div class="logs-page-header">

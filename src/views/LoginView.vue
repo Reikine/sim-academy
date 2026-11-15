@@ -1,8 +1,5 @@
 <template>
-    <main
-        id="app-auth"
-        v-cloak
-    >
+    <main id="app-auth">
 
         <div
             id="loginBox"
